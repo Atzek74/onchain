@@ -1,0 +1,5 @@
+FROM debian
+RUN apt update && apt upgrade -y
+RUN apt install -y nginx 
+RUN apt install -y libnginx-mod-stream
+CMD ["nginx", "-g", "daemon off;"]

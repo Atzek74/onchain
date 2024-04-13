@@ -1,0 +1,12 @@
+SocksPort 0.0.0.0:9050
+SocksPolicy accept 0.0.0.0
+ControlPort 0.0.0.0:9051
+
+### per creare l'hash della password usare: tor --hash-password <secret>
+HashedControlPassword <HASHED_PASSWORD>
+
+
+### HIDDEN SERVICES
+#HiddenServiceDir /var/lib/tor/<NOME_DEL_SERVIZIO>/
+#HiddenServiceVersion 3
+#HiddenServicePort <ONION_PORT> <LOCAL_IP>:<LOCAL_PORT> 

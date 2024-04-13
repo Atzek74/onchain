@@ -1,0 +1,70 @@
+version: '3.0'
+
+networks:
+  local:
+    ipam:
+      config:
+        - subnet: "172.20.0.0/16"
+          gateway: "172.20.0.1"
+
+
+services:
+
+  tor:
+    container_name: tor
+    image: atzek74/tor:7
+    restart: unless-stopped
+    volumes:
+      - $PWD/tor/conf:/etc/tor
+      - $PWD/tor/hidden_file/:/var/lib/tor
+ #   ports:
+ #     - "9050:9050"
+ #     - "9051:9051"
+    networks:
+      local:
+
+  bitcoind:
+    container_name: bitcoind
+    image: atzek74/bitcoind:4
+    restart: unless-stopped
+    depends_on:
+      - tor
+ #   ports:
+ #     - "8333:8333"
+ #     - "8332:8332"
+ #     - "28332:28332"
+ #     - "28333:28333"
+
+    volumes:
+      - $PWD/bitcoin:/root/.bitcoin
+    networks:
+      local:
+
+  electrs:
+    container_name: electrs
+    image: atzek74/electrs:3
+    restart: unless-stopped
+    depends_on:
+      - bitcoind
+    volumes:
+      - $PWD/electrs:/root/.electrs
+      - $PWD/bitcoin:/root/.bitcoin
+    networks:
+      local:
+
+  nginx:
+    container_name: nginx
+    image: atzek74/nginx:3
+    depends_on:
+      - electrs
+    restart: unless-stopped
+    volumes:
+      - $PWD/nginx/conf:/etc/nginx/
+#      - $PWD/nginx/modules-enabled:/etc/nginx/modules-enabled
+#      - $PWD/nginx/streams-enabled:/etc/nginx/streams-enabled
+      - $PWD/nginx/ssl/certs:/etc/ssl/certs
+      - $PWD/nginx/ssl/private:/etc/ssl/private
+    ports:
+      - "50002:50002"
+    networks:
+      local:

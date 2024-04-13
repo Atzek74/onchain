@@ -1,0 +1,26 @@
+# Bitcoin daemon
+server=1
+txindex=1
+
+#Network
+v2transport=1
+listen=1
+listenonion=true
+externalip=<address.onion>
+proxy=tor:9050
+onlynet=onion
+
+# Connections
+rpcauth=<utente>:<password>
+zmqpubrawblock=tcp://0.0.0.0:28332
+zmqpubrawtx=tcp://0.0.0.0:28333
+rpcallowip=<ip/mask>
+rpcallowip=<ip/mask>
+rpcbind=0.0.0.0
+
+#testnet=1
+[test]
+rpcallowip=<ip/mask>
+rpcallowip=<ip/mask>
+rpcbind=0.0.0.0
+

@@ -1,0 +1,1 @@
+openssl req -x509 -nodes -newkey rsa:4096 -out nginx-selfsigned.crt -subj "/CN=localhost" -days 3650
